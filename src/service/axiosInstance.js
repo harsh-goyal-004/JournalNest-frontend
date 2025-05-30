@@ -39,12 +39,13 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   async (error) => {
+    const originalRequest = error.config; //The original request
+
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
-      const originalRequest = error.config; //The original request
       try {
-        const newAccessToken = await axiosInstance.get("/refresh-token", {
+        const newAccessToken = await axiosInstance.get("/user/refresh-token", {
           withCredentials: true,
         });
 
@@ -53,10 +54,9 @@ axiosInstance.interceptors.response.use(
         console.log(newAccessToken.data);
 
         // Set the new Access Token in the AuthContext
-        updateReactContextAccessToken((prev) => ({
-          ...prev,
+        updateReactContextAccessToken({
           accessToken: newAccessToken.data,
-        }));
+        });
 
         // Change the accessToken in the original request
         originalRequest.headers.Authorization = `Bearer ${newAccessToken.data}`;

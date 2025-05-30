@@ -1,25 +1,17 @@
-import axios from "axios";
+import axiosInstance from "./axiosInstance";
 
 export const registerUser = (formData) => {
-  return axios.post(
-    "http://localhost:8080/user/register",
-    JSON.stringify(formData), //data
-    {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  );
+  return axiosInstance.post("/user/register", JSON.stringify(formData), {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 };
 
 export const loginUser = (formData) => {
-  return axios.post(
-    "http://localhost:8080/user/login",
-    JSON.stringify(formData),
-    {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  );
+  return axiosInstance.post("/user/login", JSON.stringify(formData), {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 };

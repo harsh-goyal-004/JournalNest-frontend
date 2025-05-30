@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import InputField from "../components/InputField";
 import Button from "../components/Button";
 import { registerUser } from "../service/authService";
 import { Link, useNavigate } from "react-router-dom";
+import AuthContext from "../context/AuthContext";
 
 function Register() {
   const [fullName, setFullName] = useState("");
@@ -12,6 +13,14 @@ function Register() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const navigate = useNavigate();
+  const { auth, setAuth } = useContext(AuthContext);
+
+  // If user is already logged in then navigate to home
+  useEffect(() => {
+    if (auth) {
+      navigate("/home");
+    }
+  }, [auth, navigate]);
 
   // Regex for validation
   const usernameRegex = /^[a-zA-Z0-9]{6,12}$/; // Only letters/numbers, 6-12 chars

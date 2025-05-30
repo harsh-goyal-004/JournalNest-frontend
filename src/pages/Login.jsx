@@ -1,14 +1,27 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import InputField from "../components/InputField";
 import Button from "../components/Button";
 import { loginUser } from "../service/authService";
 import { Link, useNavigate } from "react-router-dom";
+import AuthContext from "../context/AuthContext";
+import {
+  injectUpdateAccessToken,
+  setAccessToken,
+} from "../service/axiosInstance";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const navigate = useNavigate();
+  const { auth, setAuth } = useContext(AuthContext);
+
+  // if user is already logged in then navigate to home
+  useEffect(() => {
+    if (auth) {
+      navigate("/home");
+    }
+  }, [auth, navigate]);
 
   // Regex for validation
   const usernameRegex = /^[a-zA-Z0-9]{6,12}$/; // Only letters/numbers, 6-12 chars
@@ -45,11 +58,26 @@ function Login() {
     try {
       const res = await loginUser(formData);
       if (res.status === 200) {
+        // Set the accessToken in the AuthContext
+        setAuth({ accessToken: res.data });
+
+        // Set the accessToken in localStorage for refresh persistance
         localStorage.setItem("accessToken", res.data);
+
+        // Send the accessToken to the axiosInstance
+        setAccessToken(res.data);
+
+        // Give React's setAuth to axiosInstance for setting new Access tokens
+        injectUpdateAccessToken(setAuth);
+
         navigate("/home");
       }
     } catch (err) {
-      setErrorMsg(err.response.data);
+      // setErrorMsg(err.response.data);
+      console.log(err);
+      if (err.response.status === 401) {
+        setErrorMsg(err.response.data);
+      }
     }
   }
 
