@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
-import { setAccessToken } from "../service/axiosInstance";
+import {
+  injectUpdateAccessToken,
+  setAccessToken,
+} from "../service/axiosInstance";
 
 function RootLayout() {
   const [auth, setAuth] = useState(null);
@@ -11,6 +14,7 @@ function RootLayout() {
     if (token) {
       setAuth({ accessToken: token });
       setAccessToken(token);
+      injectUpdateAccessToken(setAuth);
     }
   }, []);
 

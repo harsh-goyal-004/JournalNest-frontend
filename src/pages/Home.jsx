@@ -8,7 +8,7 @@ function Home() {
       console.log(res.data);
     }
     getData();
-  });
+  }, []);
 
   return (
     <>

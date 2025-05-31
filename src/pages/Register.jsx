@@ -74,7 +74,6 @@ function Register() {
     // call registerUser method from authService to send data to Backend
     try {
       const res = await registerUser(formData);
-      console.log("Registration response : ", res.data);
       if (res.status === 201) {
         navigate("/login");
       }

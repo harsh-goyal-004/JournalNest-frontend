@@ -73,8 +73,6 @@ function Login() {
         navigate("/home");
       }
     } catch (err) {
-      // setErrorMsg(err.response.data);
-      console.log(err);
       if (err.response.status === 401) {
         setErrorMsg(err.response.data);
       }

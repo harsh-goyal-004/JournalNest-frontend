@@ -5,6 +5,11 @@ const axiosInstance = axios.create({
   withCredentials: true,
 });
 
+const refreshTokenAxios = axios.create({
+  baseURL: "http://localhost:8080",
+  withCredentials: true,
+});
+
 let accessToken = "";
 let updateReactContextAccessToken = null;
 
@@ -42,32 +47,42 @@ axiosInstance.interceptors.response.use(
     const originalRequest = error.config; //The original request
 
     if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
+      originalRequest._retry = true; //To prevent infinite loop
 
       try {
-        const newAccessToken = await axiosInstance.get("/user/refresh-token", {
-          withCredentials: true,
-        });
+        const newAccessToken = await refreshTokenAxios.get(
+          "/user/refresh-token"
+        );
 
         // Change the access token with the newly generated one
-        setAccessToken(newAccessToken.data);
-        console.log(newAccessToken.data);
+        if (newAccessToken !== null) {
+          setAccessToken(newAccessToken.data);
 
-        // Set the new Access Token in the AuthContext
-        updateReactContextAccessToken({
-          accessToken: newAccessToken.data,
-        });
+          // Set the new Access Token in the AuthContext
+          updateReactContextAccessToken({
+            accessToken: newAccessToken.data,
+          });
 
-        // Change the accessToken in the original request
-        originalRequest.headers.Authorization = `Bearer ${newAccessToken.data}`;
+          // Set the new Access Token in the localStorage
+          localStorage.removeItem("accessToken");
+          localStorage.setItem("accessToken", newAccessToken.data);
 
-        return axiosInstance(originalRequest);
+          // Change the accessToken in the original request
+          originalRequest.headers.Authorization = `Bearer ${newAccessToken.data}`;
+
+          return axios(originalRequest);
+        }
       } catch (error) {
-        if (error.response?.status === 410) {
+        if (error.response?.status === 401) {
+          updateReactContextAccessToken(null);
+          localStorage.removeItem("accessToken");
+
           return Promise.reject(error);
         }
+        return Promise.reject(error);
       }
     }
+    return Promise.reject(error);
   }
 );
 
