@@ -15,3 +15,15 @@ export const loginUser = (formData) => {
     },
   });
 };
+
+export const createJournalEntry = (formData) => {
+  return axiosInstance.post(
+    "/api/journal/create-journal-entry",
+    JSON.stringify(formData),
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+};

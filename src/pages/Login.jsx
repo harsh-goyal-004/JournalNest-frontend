@@ -98,6 +98,7 @@ function Login() {
                 type="text"
                 id="username"
                 name="username"
+                className="w-full"
                 autoComplete="username"
                 placeholder="Enter a username "
                 required={true}
@@ -109,6 +110,7 @@ function Login() {
                 type="password"
                 id="password"
                 name="password"
+                className="w-full"
                 autoComplete="current-password"
                 placeholder="Enter password "
                 required={true}
@@ -116,7 +118,9 @@ function Login() {
               />
             </div>
             <div className="flex w-full">
-              <Button type="submit">Login</Button>
+              <Button type="submit" className="w-full">
+                Login
+              </Button>
             </div>
 
             <span className="text-[14px] sm:text-[16px] md:text- w-full flex justify-center items-center">

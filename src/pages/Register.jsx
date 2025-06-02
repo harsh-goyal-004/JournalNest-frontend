@@ -101,6 +101,7 @@ function Register() {
                 type="text"
                 id="name"
                 name="name"
+                className="w-full"
                 autoComplete="name"
                 placeholder="Enter Your Full Name"
                 required={true}
@@ -112,6 +113,7 @@ function Register() {
                 type="text"
                 id="username"
                 name="username"
+                className="w-full"
                 autoComplete="username"
                 placeholder="Enter a username "
                 required={true}
@@ -123,6 +125,7 @@ function Register() {
                 type="email"
                 id="email"
                 name="email"
+                className="w-full"
                 autoComplete="email"
                 placeholder="Enter Your Email ID (optional)"
                 required={false}
@@ -134,6 +137,7 @@ function Register() {
                 type="password"
                 id="password"
                 name="password"
+                className="w-full"
                 autoComplete="new-password"
                 placeholder="Create password "
                 required={true}
@@ -145,6 +149,7 @@ function Register() {
                 type="password"
                 id="confirm-password"
                 name="confirm-password"
+                className="w-full"
                 autoComplete="new-password"
                 placeholder="Confirm password "
                 required={true}
@@ -152,7 +157,9 @@ function Register() {
               />
             </div>
             <div className="flex w-full">
-              <Button type="submit">Register Now</Button>
+              <Button type="submit" className="w-full">
+                Register Now
+              </Button>
             </div>
 
             <span className="text-[14px] sm:text-[16px] md:text- w-full flex justify-center items-center">

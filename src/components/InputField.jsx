@@ -9,17 +9,19 @@ function InputField({
   required = false,
   className = "",
   onChange,
+  value,
 }) {
   return (
     <div>
       <input
         type={type}
+        value={value}
         id={id}
         name={name}
         autoComplete={autoComplete}
         placeholder={placeholder}
         required={required}
-        className={`shadow-sm border-2 border-gray-50 pl-2 w-full rounded-sm ml-1 mt-1  py-2 ${className}`}
+        className={`shadow-sm border-2 border-gray-50 px-2 rounded-sm  mt-1  py-2 ${className}`}
         onChange={onChange}
       />
     </div>

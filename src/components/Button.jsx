@@ -1,9 +1,16 @@
-function Button({ children, type = "submit", className = "", onClick }) {
+function Button({
+  children,
+  type = "submit",
+  className = "",
+  onClick,
+  disabled = false,
+}) {
   return (
     <div className="w-full">
       <button
+        disabled={disabled}
         type={type}
-        className={`border-2 rounded-sm bg-blue-500 text-white w-full text-lg font-medium py-2 ${className}`}
+        className={`border-2 rounded-sm bg-blue-500 text-white text-lg font-medium py-2 ${className}`}
         onClick={onClick}
       >
         {children}

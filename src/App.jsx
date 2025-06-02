@@ -9,6 +9,7 @@ import Register from "./pages/Register";
 import RootLayout from "./layout/RootLayout";
 import Home from "./pages/Home";
 import ProtectedRoutes from "./auth/ProtectedRoutes";
+import CreateJournal from "./components/CreateJournal";
 
 function App() {
   const router = createBrowserRouter(
@@ -17,7 +18,7 @@ function App() {
         <Route index element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route element={<ProtectedRoutes />}>
-          <Route path="/home" element={<Home />} />
+          <Route path="/home" element={<CreateJournal />} />
         </Route>
       </Route>
     )
