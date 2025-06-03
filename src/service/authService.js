@@ -27,3 +27,11 @@ export const createJournalEntry = (formData) => {
     }
   );
 };
+
+export const getAllEntries = () => {
+  return axiosInstance.get("/api/journal/get-all-entries");
+};
+
+export const getAnalyticsSummary = () => {
+  return axiosInstance.get("/analytics/summary");
+};

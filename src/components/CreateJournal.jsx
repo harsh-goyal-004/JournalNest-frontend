@@ -76,7 +76,9 @@ function CreateJournal() {
           setTags([]);
           setIsSubmitting(false);
         } else {
-          toast.info("Please enter both title and journal content");
+          toast.info("Please enter both title and journal content", {
+            position: "top-center",
+          });
           setIsSubmitting(false);
         }
       } catch (error) {
@@ -88,16 +90,16 @@ function CreateJournal() {
 
   return (
     <>
-      <div className="flex flex-col justify-center">
-        <div className="text-2xl font-medium text-center mt-4">
+      <div className="flex flex-col justify-center mb-10 px-4">
+        <div className="text-3xl font-medium text-center mt-4">
           <h1>New Journal Entry</h1>
         </div>
         <div>
           <form
             onSubmit={(e) => formSubmit(e)}
-            className="h-full w-full mx-4 mt-4 font-medium flex flex-col gap-6"
+            className="h-full w-full justify-center items-center px-2 mt-4 font-medium flex flex-col gap-6"
           >
-            <div>
+            <div className="w-full">
               <label htmlFor="title" className="text-lg">
                 Journal Title :
               </label>
@@ -105,18 +107,18 @@ function CreateJournal() {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 required
-                className="w-[97%] font-normal"
+                className="w-full font-normal"
                 name="title"
                 id="title"
                 placeholder="Enter a Title"
               />
             </div>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 w-full">
               <label htmlFor="tags" className="text-lg">
                 Journal Tags :
               </label>
 
-              <div className="flex gap-5 items-center">
+              <div className="flex gap-5 items-center flex-wrap ">
                 {Object.entries(journalTags).map(([key, tag], index) => (
                   <div className="flex items-center gap-1" key={index}>
                     <input
@@ -138,7 +140,7 @@ function CreateJournal() {
                 ))}
               </div>
             </div>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 w-full">
               <label htmlFor="mood" className="text-lg">
                 Journal Mood :
               </label>
@@ -148,7 +150,7 @@ function CreateJournal() {
                 required
                 name="mood"
                 id="mood"
-                className="py-2 w-[97%] px-2 shadow-sm border-2 border-gray-50 rounded-sm font-normal"
+                className="py-2 w-full px-2 shadow-sm border-2 border-gray-50 rounded-sm font-normal"
               >
                 <option value="">Select a Mood</option>
                 <option value="HAPPY">😄 Happy</option>
@@ -160,11 +162,11 @@ function CreateJournal() {
                 <option value="NEUTRAL">😐 Neutral</option>
               </select>
             </div>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 w-full">
               <label htmlFor="content" className="text-lg">
                 Journal Content :
               </label>
-              <div className="w-[97%] rounded-sm shadow-sm border-2 border-gray-50">
+              <div className="w-full rounded-sm shadow-sm border-2 border-gray-50">
                 <ReactQuill
                   theme="snow"
                   value={content}
@@ -177,7 +179,9 @@ function CreateJournal() {
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="w-[97%] uppercase tracking-wide"
+              className={`w-full uppercase tracking-wide ${
+                isSubmitting ? "opacity-50" : ""
+              }`}
             >
               {isSubmitting ? "Saving..." : "Save Journal Entry"}
             </Button>
