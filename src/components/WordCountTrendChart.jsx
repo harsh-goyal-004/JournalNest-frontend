@@ -1,0 +1,55 @@
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
+
+const data = [
+  { date: "2025-06-02", words: 179 },
+  { date: "2025-06-03", words: 119 },
+];
+
+function dateFormat(isoDate) {
+  const date = new Date(isoDate);
+  const day = date.getDay();
+  const month = date.toLocaleString("default", { month: "long" });
+  return `${day} ${month}`;
+}
+
+export default function WordCountTrendChart() {
+  return (
+    <LineChart
+      width={500}
+      height={300}
+      data={data}
+      margin={{
+        top: 5,
+        right: 30,
+        left: 20,
+        bottom: 5,
+      }}
+    >
+      <CartesianGrid strokeDasharray="3 3" />
+      <XAxis
+        dataKey="date"
+        padding={{ left: 20, right: 20 }}
+        tickFormatter={dateFormat}
+        stroke="#000"
+        interval={0}
+      />
+      <YAxis stroke="#000" />
+      <Tooltip />
+      <Line
+        type="monotone"
+        dataKey="words"
+        stroke="#8884d8"
+        activeDot={{ r: 8 }}
+      />
+    </LineChart>
+  );
+}

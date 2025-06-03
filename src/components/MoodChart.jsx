@@ -1,14 +1,6 @@
 import React, { useCallback, useState } from "react";
 import { PieChart, Pie, Sector, Cell } from "recharts";
 
-const data = [
-  { name: "NEUTRAL", value: 3 },
-  { name: "CALM", value: 2 },
-  { name: "EXCITED", value: 2 },
-  { name: "SAD", value: 10 },
-  { name: "NERVOUS", value: 5 },
-];
-
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#AA00FF"];
 
 const renderActiveShape = (props) => {
@@ -67,7 +59,7 @@ const renderActiveShape = (props) => {
       />
       <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
       <text
-        x={ex + (cos >= 0 ? 1 : -1) * 12}
+        x={ex + (cos >= 0 ? 1 : -1) * 10}
         y={ey}
         textAnchor={textAnchor}
         fill="#333"
@@ -78,23 +70,30 @@ const renderActiveShape = (props) => {
   );
 };
 
-export default function MoodChart() {
+export default function MoodChart({ moodData }) {
   const [activeIndex, setActiveIndex] = useState(0);
+  let data = [];
+
+  Object.entries(moodData).map(([mood, value], index) => {
+    data = [...data, { name: mood, value: value }];
+  });
 
   const onPieEnter = useCallback((_, index) => {
     setActiveIndex(index);
   }, []);
 
   return (
-    <PieChart width={800} height={400}>
+    <PieChart width={420} height={300}>
       <Pie
+        isAnimationActive={true}
+        animationDuration={800}
         activeIndex={activeIndex}
         activeShape={renderActiveShape}
         data={data}
-        cx={200}
-        cy={200}
+        cx={220}
+        cy={120}
         innerRadius={60}
-        outerRadius={80}
+        outerRadius={75}
         fill="#8884d8"
         paddingAngle={5}
         dataKey="value"
