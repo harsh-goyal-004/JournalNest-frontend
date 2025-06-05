@@ -9,11 +9,6 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const data = [
-  { date: "2025-06-02", words: 179 },
-  { date: "2025-06-03", words: 119 },
-];
-
 function dateFormat(isoDate) {
   const date = new Date(isoDate);
   const day = date.getDay();
@@ -21,7 +16,13 @@ function dateFormat(isoDate) {
   return `${day} ${month}`;
 }
 
-export default function WordCountTrendChart() {
+export default function WordCountTrendChart({ analyticsData }) {
+  let data = [];
+
+  Object.entries(analyticsData).map(([key, value]) => {
+    data = [...data, { date: key, words: value }];
+  });
+
   return (
     <LineChart
       width={500}

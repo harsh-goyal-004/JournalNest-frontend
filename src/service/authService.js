@@ -35,3 +35,15 @@ export const getAllEntries = () => {
 export const getAnalyticsSummary = () => {
   return axiosInstance.get("/analytics/summary");
 };
+
+export const toggleStarredEntries = (data) => {
+  return axiosInstance.put("/api/journal/toggle-starred", data, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+};
+
+export const getStarredEntries = () => {
+  return axiosInstance.get("/api/journal/get-starred-entries");
+};

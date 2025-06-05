@@ -1,8 +1,20 @@
 import { useState } from "react";
 import "quill/dist/quill.snow.css";
+import { toggleStarredEntries } from "../service/authService";
 
 function ViewSingleEntry({ data }) {
-  const [isStarred, setIsStarred] = useState(false);
+  const [isStarred, setIsStarred] = useState(data?.starred);
+
+  async function handleStarredEntries() {
+    let journalId = data.id;
+    console.log(journalId);
+    try {
+      const res = await toggleStarredEntries(journalId);
+      setIsStarred(!isStarred);
+    } catch (error) {
+      console.log("Starred Journal Entry Error : ", error);
+    }
+  }
 
   return (
     <>
@@ -21,14 +33,16 @@ function ViewSingleEntry({ data }) {
               MOOD: {data?.mood}
             </span>
           </div>
+          {/* Starred Button */}
           <div className="2/3 flex gap-8 mr-5">
-            <button onClick={() => setIsStarred(!isStarred)}>
+            <button onClick={() => handleStarredEntries()}>
               <img
                 src={`${isStarred ? "/star.svg" : "/empty-star.svg"} `}
                 alt="Starred"
                 className="w-7"
               />
             </button>
+            {/* Edit Button */}
             <button>
               <img src="/edit.svg" alt="Edit" className="w-7" />
             </button>

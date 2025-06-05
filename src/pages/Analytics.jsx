@@ -13,7 +13,7 @@ function Analytics() {
     async function getAnalytics() {
       try {
         const res = await getAnalyticsSummary();
-        // console.log(res.data);
+        console.log(res.data);
         setAnalytics(res.data);
       } catch (error) {
         console.log(error);
@@ -91,7 +91,7 @@ function Analytics() {
             {/* Word Count Per Day Line Chart */}
             <div className="shadow-lg py-2 px-4 rounded-lg border-2 border-gray-200">
               <h1 className="text-lg font-medium h-12">Word Count Per Day</h1>
-              <WordCountTrendChart />
+              <WordCountTrendChart analyticsData={analytics.wordCountPerDay} />
             </div>
           </div>
           {/* Entries Per Day Bar Chart */}

@@ -21,7 +21,9 @@ function JournalLayout() {
           {view.type === "Starred" && <Starred />}
           {view.type === "Analytics" && <Analytics />}
           {view.type === "Settings" && <Settings />}
-          {view.type === "Entry" && <ViewSingleEntry data={view.data} />}
+          {view.type === "Entry" && (
+            <ViewSingleEntry key={view.data.id} data={view.data} />
+          )}
         </div>
       </div>
     </>
