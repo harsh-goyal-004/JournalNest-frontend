@@ -20,28 +20,13 @@ const sidebar = [
   },
 ];
 
-function Sidebar({ setView }) {
-  const [allEntries, setAllEntries] = useState([]);
-
-  useEffect(() => {
-    async function getAllJournal() {
-      try {
-        const response = await getAllEntries();
-        const data = response.data.content;
-        setAllEntries(data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    getAllJournal();
-  }, []);
-
+function Sidebar({ setView, allEntries }) {
   return (
     <>
-      <div>
+      <div className="h-full overflow-y-auto border-b-1 border-gray-400">
         {/* Sidebar Items */}
-        <div className="border-b-1 border-gray-400">
-          <ul className="w-full">
+        <div>
+          <ul className="w-full h-full ">
             {sidebar.map((item, index) => (
               <li
                 className="flex gap-2 font-medium p-2 pb-3 text-sm hover:cursor-pointer hover:bg-gray-300"

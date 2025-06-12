@@ -1,13 +1,49 @@
 import { useState } from "react";
 import "quill/dist/quill.snow.css";
-import { toggleStarredEntries } from "../service/authService";
+import {
+  deleteJournalEntryById,
+  toggleStarredEntries,
+} from "../service/authService";
+import { toast } from "react-toastify";
 
-function ViewSingleEntry({ data }) {
+export function Modal({ setDeleteEntry, deleteEntry }) {
+  return (
+    <>
+      <div className="top-0 w-4/5 h-full left-[20%] fixed z-20 flex justify-center items-center backdrop-blur-[1px]">
+        <div className="h-60 w-80 rounded-2xl p-4 border-2 shadow-2xl border-gray-200 bg-white flex flex-col items-center gap-3">
+          <div className="h-18 w-18 bg-gray-200 rounded-full flex items-center justify-center">
+            <img src="/delete.svg" alt="Delete Entry" className="w-12" />
+          </div>
+          <h1 className="text-lg font-medium text-center">
+            Are you sure you want to permenantly delete this entry?
+          </h1>
+          <div className="flex gap-6 mt-2">
+            <button
+              className="h-10 w-24 text-white bg-gray-400 rounded-lg"
+              onClick={() => setDeleteEntry((prev) => !prev)}
+            >
+              Cancel
+            </button>
+            <button
+              className="h-10 w-24 text-white bg-red-500 rounded-lg"
+              onClick={() => deleteEntry()}
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+function ViewSingleEntry({ data, onDelete }) {
   const [isStarred, setIsStarred] = useState(data?.starred);
+  const [deleteEntry, setDeleteEntry] = useState(false);
 
   async function handleStarredEntries() {
     let journalId = data.id;
-    console.log(journalId);
+    // console.log(journalId);
     try {
       const res = await toggleStarredEntries(journalId);
       setIsStarred(!isStarred);
@@ -16,9 +52,28 @@ function ViewSingleEntry({ data }) {
     }
   }
 
+  async function deleteJournalEntry() {
+    try {
+      const response = await deleteJournalEntryById(data.id);
+      // console.log(response.data);
+      toast.success("Journal Entry Deleted Successfully!", {
+        position: "top-center",
+      });
+      onDelete();
+    } catch (error) {
+      console.log("Error while deleting the Journal Entry : ", error);
+    }
+  }
+
   return (
     <>
       <div className="mx-6 pb-2 border-b-2 border-gray-400 ">
+        <div className={`${deleteEntry ? "block" : "hidden"}`}>
+          <Modal
+            setDeleteEntry={setDeleteEntry}
+            deleteEntry={deleteJournalEntry}
+          />
+        </div>
         {/* Title and Buttons */}
         <div className="flex items-center justify-between pb-2  ">
           <div className="w-1/3">
@@ -46,7 +101,7 @@ function ViewSingleEntry({ data }) {
             <button>
               <img src="/edit.svg" alt="Edit" className="w-7" />
             </button>
-            <button>
+            <button onClick={() => setDeleteEntry((prev) => !prev)}>
               <img src="/delete.svg" alt="Delete" className="w-7" />
             </button>
           </div>

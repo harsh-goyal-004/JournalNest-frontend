@@ -26,7 +26,7 @@ const quillModules = {
   ],
 };
 
-function CreateJournal() {
+function CreateJournal({ onCreate }) {
   const [title, setTitle] = useState("");
   const [tags, setTags] = useState([]);
   const [mood, setMood] = useState("");
@@ -68,6 +68,7 @@ function CreateJournal() {
           toast.success("Journal Entry Created Successfully!", {
             position: "top-center",
           });
+          onCreate();
 
           // Reset the form fields
           setTitle("");

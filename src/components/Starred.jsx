@@ -5,7 +5,7 @@ import {
 } from "../service/authService";
 
 function Starred() {
-  const [starredEntries, setStarredEntries] = useState();
+  const [starredEntries, setStarredEntries] = useState([]);
   const [toggleStarred, setToggleStarred] = useState(true);
 
   useEffect(() => {
@@ -13,7 +13,7 @@ function Starred() {
       try {
         const res = await getStarredEntries();
         setStarredEntries(res.data);
-        console.log(starredEntries);
+        // console.log(starredEntries);
       } catch (error) {
         console.log("Error while fetching Starred Entries:", error);
       }
@@ -34,7 +34,7 @@ function Starred() {
 
   return (
     <>
-      {starredEntries && (
+      {starredEntries.length !== 0 ? (
         <>
           <div className="shadow-lg py-3 mb-5">
             <h1 className="text-2xl font-medium text-center uppercase ">
@@ -66,9 +66,9 @@ function Starred() {
                 {/* Starred button */}
                 <div className="w-full flex items-end justify-end px-4">
                   <button
-                    onClick={() => {
-                      setToggleStarred(!toggleStarred);
-                      handleStarredEntries(entry.id);
+                    onClick={async () => {
+                      await handleStarredEntries(entry.id);
+                      setToggleStarred((prev) => !prev);
                     }}
                   >
                     <img src="/star.svg" alt="Starred" className="w-8" />
@@ -76,6 +76,17 @@ function Starred() {
                 </div>
               </div>
             ))}
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="shadow-lg py-3 mb-5">
+            <h1 className="text-2xl font-medium text-center uppercase ">
+              Starred Entries
+            </h1>
+          </div>
+          <div className="h-full flex justify-center items-center">
+            <h1 className="text-2xl font-medium">No Starred Journal Entries</h1>
           </div>
         </>
       )}
