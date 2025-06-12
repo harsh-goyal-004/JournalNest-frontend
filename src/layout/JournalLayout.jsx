@@ -34,9 +34,9 @@ function JournalLayout() {
         {/* Main View */}
         <div className="w-4/5 h-screen overflow-y-auto">
           {view.type === "New Entry" && (
-            <CreateJournal onCreate={fetchEntries} />
+            <CreateJournal onCreate={fetchEntries} edit={view.data} />
           )}
-          {view.type === "Starred" && <Starred />}
+          {view.type === "Starred" && <Starred setView={setView} />}
           {view.type === "Analytics" && <Analytics />}
           {view.type === "Settings" && <Settings />}
           {view.type === "Entry" && (
@@ -46,6 +46,12 @@ function JournalLayout() {
               onDelete={() => {
                 setView({ type: "", data: null });
                 fetchEntries();
+              }}
+              onEdit={() => {
+                setView({
+                  type: "New Entry",
+                  data: { ...view.data, editmode: true },
+                });
               }}
             />
           )}

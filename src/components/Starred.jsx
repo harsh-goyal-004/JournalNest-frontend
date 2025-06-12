@@ -4,7 +4,7 @@ import {
   toggleStarredEntries,
 } from "../service/authService";
 
-function Starred() {
+function Starred({ setView }) {
   const [starredEntries, setStarredEntries] = useState([]);
   const [toggleStarred, setToggleStarred] = useState(true);
 
@@ -44,8 +44,9 @@ function Starred() {
           <div className="flex gap-4 p-6 flex-wrap">
             {starredEntries.map((entry, key) => (
               <div
-                className="h-60 w-58 border-2 border-gray-100 shadow-lg rounded-lg flex flex-col "
+                className="h-60 relative w-58 border-2 border-gray-100 shadow-lg rounded-lg flex flex-col cursor-pointer "
                 key={key}
+                onClick={() => setView({ type: "Entry", data: entry })}
               >
                 <div className="pb-1 border-b-2 border-gray-400 mx-2">
                   <h1 className=" text-lg font-bold mt-2">{entry?.title}</h1>
@@ -64,9 +65,10 @@ function Starred() {
                   </p>
                 </div>
                 {/* Starred button */}
-                <div className="w-full flex items-end justify-end px-4">
+                <div className="w-full absolute bottom-0 left-45">
                   <button
-                    onClick={async () => {
+                    onClick={async (e) => {
+                      e.stopPropagation(); // To stop event bubbling
                       await handleStarredEntries(entry.id);
                       setToggleStarred((prev) => !prev);
                     }}

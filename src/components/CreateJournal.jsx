@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import InputField from "./InputField";
 import Button from "./Button";
 import { toast } from "react-toastify";
-import { createJournalEntry } from "../service/authService";
+import {
+  createJournalEntry,
+  updateJournalEntryById,
+} from "../service/authService";
 
 //React Quill Toolbars
 const quillModules = {
@@ -26,12 +29,21 @@ const quillModules = {
   ],
 };
 
-function CreateJournal({ onCreate }) {
+function CreateJournal({ onCreate, edit }) {
   const [title, setTitle] = useState("");
   const [tags, setTags] = useState([]);
   const [mood, setMood] = useState("");
   const [content, setContent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (edit !== null) {
+      setTitle(edit.title);
+      setTags(edit.tags);
+      setContent(edit.content);
+      setMood(edit.mood);
+    }
+  }, [edit]);
 
   const journalTags = {
     WORK: "💼 Work",
@@ -54,8 +66,9 @@ function CreateJournal({ onCreate }) {
       tags: tags,
       mood: mood,
     };
-
+    // New Journal Entry
     if (
+      edit === null &&
       title.trim() !== "" &&
       content.replace(/<(.|\n)*?>/g, "").trim() !== ""
     ) {
@@ -87,13 +100,49 @@ function CreateJournal({ onCreate }) {
         setIsSubmitting(false);
       }
     }
+    // For Updating already exisiting Journal Entry
+    else if (
+      edit !== null &&
+      title.trim() !== "" &&
+      content.replace(/<(.|\n)*?>/g, "").trim() !== ""
+    ) {
+      try {
+        setIsSubmitting(true); //To prevent multiple same requests
+
+        const response = await updateJournalEntryById(edit.id, data);
+        if (response.status === 200) {
+          console.log(response.data);
+          toast.success("Journal Entry Updated Successfully!", {
+            position: "top-center",
+          });
+          onCreate();
+
+          // Reset the form fields
+          setTitle("");
+          setContent("");
+          setMood("");
+          setTags([]);
+          setIsSubmitting(false);
+        } else {
+          toast.info("Please enter both title and journal content", {
+            position: "top-center",
+          });
+          setIsSubmitting(false);
+        }
+      } catch (error) {
+        toast.error("Failed to create journal entry. Please try again.");
+        setIsSubmitting(false);
+      }
+    }
   }
 
   return (
     <>
       <div className="flex flex-col justify-center mb-10 px-4">
         <div className="text-3xl font-medium text-center mt-4">
-          <h1>New Journal Entry</h1>
+          <h1>
+            {edit !== null ? "Update Journal Entry" : "New Journal Entry"}
+          </h1>
         </div>
         <div>
           <form
@@ -184,7 +233,13 @@ function CreateJournal({ onCreate }) {
                 isSubmitting ? "opacity-50" : ""
               }`}
             >
-              {isSubmitting ? "Saving..." : "Save Journal Entry"}
+              {edit === null
+                ? isSubmitting
+                  ? "Saving..."
+                  : "Save Journal Entry"
+                : isSubmitting
+                ? "Updating..."
+                : "Update Journal Entry"}
             </Button>
           </form>
         </div>

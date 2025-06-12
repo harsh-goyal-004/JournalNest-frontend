@@ -71,3 +71,9 @@ export const handleProfileImageUpload = (data) => {
 export const deleteJournalEntryById = (id) => {
   return axiosInstance.delete(`/api/journal/delete-journal-entry/${id}`);
 };
+
+export const updateJournalEntryById = (id, data) => {
+  return axiosInstance.put(`/api/journal/update-journal-entry/${id}`, data, {
+    headers: { "Content-Type": "application/json" },
+  });
+};

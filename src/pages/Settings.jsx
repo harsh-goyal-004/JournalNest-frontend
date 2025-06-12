@@ -19,6 +19,7 @@ function Settings() {
   const [dob, setDob] = useState("");
   const [contact, setContact] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     async function getUserData() {
@@ -59,7 +60,7 @@ function Settings() {
 
   const handleFormSubmission = async (e) => {
     e.preventDefault();
-    if (fullName.trim() !== "" && selectedImage !== null) {
+    if (fullName.trim() !== "") {
       const obj = {
         name: fullName,
         email: email,
@@ -68,26 +69,38 @@ function Settings() {
         number: contact,
       };
 
-      const formData = new FormData();
-      formData.append("profilePic", selectedImage);
-
       try {
+        setIsSubmitting(true);
         const response = await handleUserInfo(JSON.stringify(obj));
-        const imageUploadResponse = await handleProfileImageUpload(formData);
 
         if (response.status === 200) {
           setEditable(false);
           toast.success("User information Updated Successfully", {
             position: "top-center",
           });
-          if (imageUploadResponse.status === 200) {
-            toast.success("User Profile Picture Updated Successfully", {
-              position: "top-center",
-            });
-          }
+
+          setIsSubmitting(false);
         }
       } catch (error) {
         console.log("User Info Form Error :", error);
+        setIsSubmitting(false);
+      }
+    }
+    if (selectedImage !== null) {
+      const formData = new FormData();
+      formData.append("profilePic", selectedImage);
+      try {
+        setIsSubmitting(true);
+        const imageUploadResponse = await handleProfileImageUpload(formData);
+        if (imageUploadResponse.status === 200) {
+          toast.success("User Profile Picture Updated Successfully", {
+            position: "top-center",
+          });
+        }
+        setIsSubmitting(false);
+      } catch (error) {
+        console.log("User Profile Pic Update Error :", error);
+        setIsSubmitting(false);
       }
     }
   };
@@ -122,7 +135,7 @@ function Settings() {
                       />
                     </div>
                   ) : null}
-                  {image === "" ? (
+                  {userData.profileImageUrl === null ? (
                     <img src="/profile.png" alt="Upload Profile Pic" />
                   ) : (
                     <img src={image} alt="profile" />
@@ -254,8 +267,13 @@ function Settings() {
                   </div>
                 </div>
                 {editable ? (
-                  <Button className="w-full uppercase tracking-wider mt-4">
-                    Submit
+                  <Button
+                    disabled={isSubmitting}
+                    className={`w-full uppercase tracking-wider mt-4 ${
+                      isSubmitting ? "bg-blue-500/50" : ""
+                    }`}
+                  >
+                    {isSubmitting ? "Saving..." : "Save"}
                   </Button>
                 ) : null}
               </form>

@@ -37,7 +37,7 @@ export function Modal({ setDeleteEntry, deleteEntry }) {
   );
 }
 
-function ViewSingleEntry({ data, onDelete }) {
+function ViewSingleEntry({ data, onDelete, onEdit }) {
   const [isStarred, setIsStarred] = useState(data?.starred);
   const [deleteEntry, setDeleteEntry] = useState(false);
 
@@ -98,7 +98,7 @@ function ViewSingleEntry({ data, onDelete }) {
               />
             </button>
             {/* Edit Button */}
-            <button>
+            <button onClick={() => onEdit()}>
               <img src="/edit.svg" alt="Edit" className="w-7" />
             </button>
             <button onClick={() => setDeleteEntry((prev) => !prev)}>
