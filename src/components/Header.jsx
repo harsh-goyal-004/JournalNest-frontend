@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { searchJournalEntry } from "../service/authService";
 
-function Header({ auth }) {
+function Header({ auth, setView }) {
   const [searchParams, setSearchParams] = useState({
     search: "",
     tag: [],
@@ -36,9 +36,13 @@ function Header({ auth }) {
 
         try {
           const response = await searchJournalEntry(data);
-          console.log(response.data);
+          setView({ type: "SearchResults", data: response.data });
         } catch (error) {
-          console.log("Error while searching for entries : ", error);
+          if (error.response.status === 404) {
+            setView({ type: "SearchResults", data: null });
+          } else {
+            console.log("Error while searching for entries : ", error);
+          }
         }
       }
     }
@@ -58,9 +62,13 @@ function Header({ auth }) {
 
       try {
         const response = await searchJournalEntry(data);
-        console.log(response.data);
+        setView({ type: "SearchResults", data: response.data });
       } catch (error) {
-        console.log("Error while searching for entries : ", error);
+        if (error.response.status === 404) {
+          setView({ type: "SearchResults", data: null });
+        } else {
+          console.log("Error while searching for entries : ", error);
+        }
       }
     }
   }

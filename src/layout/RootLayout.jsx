@@ -25,7 +25,7 @@ function RootLayout() {
     <>
       <div>
         <AuthContext.Provider value={{ auth, setAuth }}>
-          <Header auth={auth} />
+          {auth === false ? <Header auth={auth} /> : null}
           <Outlet />
         </AuthContext.Provider>
       </div>
