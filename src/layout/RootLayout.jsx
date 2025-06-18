@@ -5,6 +5,7 @@ import {
   injectUpdateAccessToken,
   setAccessToken,
 } from "../service/axiosInstance";
+import Header from "../components/Header";
 
 function RootLayout() {
   const [auth, setAuth] = useState(null);
@@ -15,6 +16,8 @@ function RootLayout() {
       setAuth({ accessToken: token });
       setAccessToken(token);
       injectUpdateAccessToken(setAuth);
+    } else {
+      setAuth(false);
     }
   }, []);
 
@@ -22,6 +25,7 @@ function RootLayout() {
     <>
       <div>
         <AuthContext.Provider value={{ auth, setAuth }}>
+          <Header auth={auth} />
           <Outlet />
         </AuthContext.Provider>
       </div>

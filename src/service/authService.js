@@ -1,4 +1,5 @@
 import axiosInstance from "./axiosInstance";
+import qs from "qs";
 
 export const registerUser = (formData) => {
   return axiosInstance.post("/user/register", JSON.stringify(formData), {
@@ -74,6 +75,16 @@ export const deleteJournalEntryById = (id) => {
 
 export const updateJournalEntryById = (id, data) => {
   return axiosInstance.put(`/api/journal/update-journal-entry/${id}`, data, {
+    headers: { "Content-Type": "application/json" },
+  });
+};
+
+export const searchJournalEntry = (search) => {
+  return axiosInstance.get("/api/journal/search-journal", {
+    params: search,
+    paramsSerializer: (search) => {
+      return qs.stringify(search, { arrayFormat: "repeat" });
+    },
     headers: { "Content-Type": "application/json" },
   });
 };

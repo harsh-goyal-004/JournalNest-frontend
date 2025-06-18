@@ -17,9 +17,9 @@ function App() {
     createRoutesFromElements(
       <Route path="/" element={<RootLayout />}>
         <Route index element={<Register />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="login" element={<Login />} />
         <Route element={<ProtectedRoutes />}>
-          <Route path="/home" element={<JournalLayout />} />
+          <Route path="home" element={<JournalLayout />} />
         </Route>
       </Route>
     )
