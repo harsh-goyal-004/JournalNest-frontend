@@ -13,7 +13,6 @@ function Analytics() {
     async function getAnalytics() {
       try {
         const res = await getAnalyticsSummary();
-        console.log(res.data);
         setAnalytics(res.data);
       } catch (error) {
         console.log(error);
@@ -24,14 +23,14 @@ function Analytics() {
 
   return (
     <>
+      {/* Heading */}
+      <div className="shadow-lg py-4 mb-5">
+        <h1 className="text-xl md:text-2xl font-medium text-center uppercase ">
+          Journal Analytics Dashboard
+        </h1>
+      </div>
       {analytics && (
         <>
-          {/* Heading */}
-          <div className="shadow-lg py-4 mb-5">
-            <h1 className="text-2xl font-medium text-center uppercase ">
-              Journal Analytics Dashboard
-            </h1>
-          </div>
           <div className="p-4 mb-8">
             {/* Analytics Cards */}
             <h1 className="font-medium text-lg pl-4 mb-4">
@@ -83,26 +82,30 @@ function Analytics() {
             </div>
           </div>
           {/* Mood Distribution Pie Chart */}
-          <div className="flex flex-wrap items-center justify-center gap-2 mb-14">
-            <div className="shadow-lg py-2 px-4 rounded-lg border-2 border-gray-200">
-              <h1 className="text-lg font-medium h-12">Mood Distribution</h1>
+          <div className="flex flex-wrap items-center justify-center gap-8 md:gap-6 mb-14">
+            <div className="shadow-lg w-[90%] md:w-[45%] py-2 px-4 rounded-lg border-2 border-gray-200">
+              <h1 className="text-md text-center md:text-start md:text-lg font-medium md:h-12">
+                Mood Distribution
+              </h1>
               <MoodChart moodData={analytics.moodDistribution} />
             </div>
             {/* Word Count Per Day Line Chart */}
-            <div className="shadow-lg py-2 px-4 rounded-lg border-2 border-gray-200">
-              <h1 className="text-lg font-medium h-12">Word Count Per Day</h1>
+            <div className="shadow-lg w-[90%] md:w-[45%] py-2 px-4 rounded-lg border-2 border-gray-200">
+              <h1 className="text-md text-center md:text-start md:text-lg font-medium h-12">
+                Word Count Per Day
+              </h1>
               <WordCountTrendChart analyticsData={analytics.wordCountPerDay} />
             </div>
           </div>
           {/* Entries Per Day Bar Chart */}
-          <div>
-            <h1 className="text-lg font-medium h-12 pl-8">
+          <div className="mx-4 md:mx-6 shadow-lg w-f[95%] py-2 px-4 rounded-lg border-2 border-gray-200">
+            <h1 className="text-md text-center md:text-start md:text-lg font-medium h-12 pl-8">
               Total Entries Per Day
             </h1>
             <EntriesPerDay entryData={analytics.entriesPerDay} />
           </div>
-          <div className="mb-10">
-            <h1 className="text-lg font-medium h-12 pl-10 mt-3 ">
+          <div className="mt-10 md:mt-6 mb-10">
+            <h1 className="text-md text-center md:text-start md:text-lg font-medium h-12 pl-10 mt-3 ">
               Journal Streak
             </h1>
             <Streak

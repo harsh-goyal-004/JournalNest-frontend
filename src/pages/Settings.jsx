@@ -36,7 +36,6 @@ function Settings() {
 
   useEffect(() => {
     if (userData) {
-      console.log(userData);
       setImage(userData.profileImageUrl || "");
       setFullName(userData.name || "");
       setEmail(userData.email || "");
@@ -109,15 +108,15 @@ function Settings() {
     <>
       <div className="mb-10">
         <div className="shadow-lg py-4 mb-5">
-          <h1 className="text-2xl font-medium text-center uppercase ">
+          <h1 className="text-xl md:text-2xl font-medium text-center uppercase ">
             Settings
           </h1>
         </div>
         {/* Profile Settings */}
         {userData ? (
-          <div className="p-4">
-            <div className="flex justify-between items-center">
-              <div className="flex items-center gap-4 pl-6">
+          <div className="md:p-4">
+            <div className="flex flex-wrap justify-between items-center">
+              <div className="flex items-center gap-4 pl-2 md:pl-6">
                 <div
                   className="border-2 h-32 w-32 rounded-full overflow-hidden cursor-pointer relative flex items-center justify-center"
                   onClick={() => {
@@ -149,17 +148,31 @@ function Settings() {
                   />
                 </div>
                 <div className="flex flex-col gap-1">
-                  <h1 className="text-2xl font-medium">{fullName}</h1>
-                  <p className="text-md text-gray-500">{email}</p>
+                  <h1 className="text-md md:text-2xl font-medium">
+                    {fullName}
+                  </h1>
+                  <p className="text-sm md:text-md text-gray-500">{email}</p>
                 </div>
               </div>
-              <div className="px-4">
-                <Button
-                  className="w-32 h-12 tracking-wide"
-                  onClick={() => setEditable(!editable)}
-                >
-                  Edit
-                </Button>
+              <div className="flex w-full md:w-auto justify-center gap-4 md:gap-0 mt-4 md:mt-0">
+                <div>
+                  <Button
+                    className="w-32 h-12 tracking-wide"
+                    onClick={() => {
+                      localStorage.removeItem("accessToken");
+                    }}
+                  >
+                    Logout
+                  </Button>
+                </div>
+                <div className="md:px-4">
+                  <Button
+                    className="w-32 h-12 tracking-wide"
+                    onClick={() => setEditable(!editable)}
+                  >
+                    Edit
+                  </Button>
+                </div>
               </div>
             </div>
             {/* Profile Form */}

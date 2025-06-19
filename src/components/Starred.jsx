@@ -41,7 +41,7 @@ function Starred({ setView }) {
               Starred Entries
             </h1>
           </div>
-          <div className="flex gap-4 p-6 flex-wrap">
+          <div className="flex gap-4 p-6 justify-center md:justify-start flex-wrap">
             {starredEntries.map((entry, key) => (
               <div
                 className="h-60 relative w-58 border-2 border-gray-100 shadow-lg rounded-lg flex flex-col cursor-pointer "

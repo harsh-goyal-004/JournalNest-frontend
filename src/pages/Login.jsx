@@ -15,6 +15,7 @@ function Login() {
   const [errorMsg, setErrorMsg] = useState("");
   const navigate = useNavigate();
   const { auth, setAuth } = useContext(AuthContext);
+  const [login, setLogin] = useState(false);
 
   // if user is already logged in then navigate to home
   useEffect(() => {
@@ -31,11 +32,13 @@ function Login() {
   //   This function handles the form submission
   async function formSubmit(e) {
     e.preventDefault();
+    setLogin(true);
 
     setErrorMsg("");
 
     if (!usernameRegex.test(username)) {
       setErrorMsg("Username must be 6-12 letters or numbers ");
+      setLogin(false);
       return;
     }
 
@@ -43,6 +46,7 @@ function Login() {
       setErrorMsg(
         "Password must be atleast 8 characters and contain a letter, a special character and a number"
       );
+      setLogin(false);
 
       return;
     }
@@ -69,12 +73,14 @@ function Login() {
 
         // Give React's setAuth to axiosInstance for setting new Access tokens
         injectUpdateAccessToken(setAuth);
+        setLogin(false);
 
         navigate("/home");
       }
     } catch (err) {
       if (err.response.status === 401) {
         setErrorMsg(err.response.data);
+        setLogin(false);
       }
     }
   }
@@ -118,8 +124,12 @@ function Login() {
               />
             </div>
             <div className="flex w-full">
-              <Button type="submit" className="w-full">
-                Login
+              <Button
+                disabled={login}
+                type="submit"
+                className={`w-full ${login ? "opacity-50" : "opacity-100"}`}
+              >
+                {login ? "Logging..." : "Login"}
               </Button>
             </div>
 

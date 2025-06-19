@@ -13,6 +13,7 @@ function JournalLayout() {
   const [view, setView] = useState({ type: "", data: null });
   const [allEntries, setAllEntries] = useState([]);
   const [loadMoreEntries, setLoadMoreEntries] = useState(1);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   async function fetchEntries() {
     try {
@@ -35,19 +36,24 @@ function JournalLayout() {
 
   return (
     <>
-      <Header auth={true} setView={setView} />
-      <div className="flex">
+      <Header auth={true} setView={setView} setSidebarOpen={setSidebarOpen} />
+      <div className="md:flex">
         {/* Sidebar */}
-        <div className="w-1/5 border-r-2 min-h-screen overflow-y-auto bg-gray-100 border-gray-300">
+        <div
+          className={`  ${
+            sidebarOpen ? "block" : "hidden md:block"
+          } w-full md:w-1/5 border-r-2 min-h-screen overflow-y-auto bg-gray-100 border-gray-30`}
+        >
           <Sidebar
             setView={setView}
             allEntries={allEntries}
             loadMoreEntries={loadMoreEntries}
             setLoadMoreEntry={setLoadMoreEntries}
+            setSidebarOpen={setSidebarOpen}
           />
         </div>
         {/* Main View */}
-        <div className="w-4/5 h-screen overflow-y-auto">
+        <div className="w-full md:w-4/5 h-screen overflow-y-auto">
           {view.type === "New Entry" && (
             <CreateJournal onCreate={fetchEntries} edit={view.data} />
           )}

@@ -34,9 +34,9 @@ export default function EntriesPerDay({ entryData }) {
         data={data}
         margin={{
           top: 5,
-          right: 50,
-          left: 30,
-          bottom: 5,
+          right: 0,
+          left: -35,
+          bottom: 20,
         }}
       >
         <CartesianGrid strokeDasharray="3 3" />
@@ -45,6 +45,8 @@ export default function EntriesPerDay({ entryData }) {
           stroke="#000"
           interval={0}
           tickFormatter={dateFomat}
+          angle={-30}
+          textAnchor="end"
         />
         <YAxis stroke="#000" dataKey="entries" />
 

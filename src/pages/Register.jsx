@@ -14,6 +14,7 @@ function Register() {
   const [errorMsg, setErrorMsg] = useState("");
   const navigate = useNavigate();
   const { auth, setAuth } = useContext(AuthContext);
+  const [register, setRegister] = useState(false);
 
   // If user is already logged in then navigate to home
   useEffect(() => {
@@ -31,7 +32,7 @@ function Register() {
   //   This function handles the form submission
   async function formSubmit(e) {
     e.preventDefault();
-
+    setRegister(true);
     setErrorMsg("");
 
     if (fullName === "") {
@@ -40,16 +41,20 @@ function Register() {
 
     if (!usernameRegex.test(username)) {
       setErrorMsg("Username must be 6-12 letters or numbers ");
+      setRegister(false);
+
       return;
     }
 
     if (email !== "") {
       if (!emailRegex.test(email)) {
+        setRegister(false);
         setErrorMsg("Email is Invalid");
       }
     }
 
     if (!passwordRegex.test(password)) {
+      setRegister(false);
       setErrorMsg(
         "Password must be atleast 8 characters and contain a letter, a special character and a number"
       );
@@ -58,6 +63,7 @@ function Register() {
     }
 
     if (password !== confirmPassword) {
+      setRegister(false);
       setErrorMsg("Passwords do not match.");
       return;
     }
@@ -75,10 +81,12 @@ function Register() {
     try {
       const res = await registerUser(formData);
       if (res.status === 201) {
+        setRegister(false);
         navigate("/login");
       }
     } catch (err) {
       setErrorMsg(err.response.data);
+      setRegister(false);
     }
   }
 
@@ -157,8 +165,12 @@ function Register() {
               />
             </div>
             <div className="flex w-full">
-              <Button type="submit" className="w-full">
-                Register Now
+              <Button
+                disabled={register}
+                type="submit"
+                className={`w-full ${register ? "opacity-50" : "opacity-100"}`}
+              >
+                {register ? "Registering..." : "Register Now"}
               </Button>
             </div>
 

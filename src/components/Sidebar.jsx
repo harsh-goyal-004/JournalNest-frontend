@@ -20,10 +20,10 @@ const sidebar = [
   },
 ];
 
-function Sidebar({ setView, allEntries, setLoadMoreEntry }) {
+function Sidebar({ setView, allEntries, setLoadMoreEntry, setSidebarOpen }) {
   return (
     <>
-      <div className="h-full overflow-y-auto border-b-1 border-gray-400">
+      <div className={` h-full overflow-y-auto md:border-b-1 border-gray-400`}>
         {/* Sidebar Items */}
         <div>
           <ul className="w-full h-full ">
@@ -31,7 +31,10 @@ function Sidebar({ setView, allEntries, setLoadMoreEntry }) {
               <li
                 className="flex gap-2 font-medium p-2 pb-3 text-sm hover:cursor-pointer hover:bg-gray-300"
                 key={index}
-                onClick={() => setView({ type: item.name, data: null })}
+                onClick={() => {
+                  setView({ type: item.name, data: null });
+                  setSidebarOpen((prev) => !prev);
+                }}
               >
                 <img src={item.image} alt={item.name} className="w-5" />
                 {item.name}
@@ -47,19 +50,24 @@ function Sidebar({ setView, allEntries, setLoadMoreEntry }) {
               <li
                 key={entry.id}
                 className="px-2 py-2 font-medium text-sm flex gap-2 hover:cursor-pointer hover:bg-gray-300"
-                onClick={() => setView({ type: "Entry", data: entry })}
+                onClick={() => {
+                  setView({ type: "Entry", data: entry });
+                  setSidebarOpen((prev) => !prev);
+                }}
               >
                 <img src="/journal.svg" alt="journal" className="w-5" />
                 {entry.title}
               </li>
             ))}
           </ul>
-          <button
-            onClick={() => setLoadMoreEntry((prev) => prev + 1)}
-            className="text-sm pl-2"
-          >
-            Load More...
-          </button>
+          {allEntries.length > 9 ? (
+            <button
+              onClick={() => setLoadMoreEntry((prev) => prev + 1)}
+              className="text-sm pl-2"
+            >
+              Load More...
+            </button>
+          ) : null}
         </div>
       </div>
     </>

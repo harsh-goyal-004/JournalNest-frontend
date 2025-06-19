@@ -139,7 +139,7 @@ function CreateJournal({ onCreate, edit }) {
   return (
     <>
       <div className="flex flex-col justify-center mb-10 px-4">
-        <div className="text-3xl font-medium text-center mt-4">
+        <div className="text-xl md:text-3xl font-medium text-center mt-4">
           <h1>
             {edit !== null ? "Update Journal Entry" : "New Journal Entry"}
           </h1>
@@ -147,10 +147,10 @@ function CreateJournal({ onCreate, edit }) {
         <div>
           <form
             onSubmit={(e) => formSubmit(e)}
-            className="h-full w-full justify-center items-center px-2 mt-4 font-medium flex flex-col gap-6"
+            className="h-full w-full justify-center items-center px-2 mt-6 md:mt-4 font-medium flex flex-col gap-6"
           >
             <div className="w-full">
-              <label htmlFor="title" className="text-lg">
+              <label htmlFor="title" className="text-md md:text-lg">
                 Journal Title :
               </label>
               <InputField
@@ -164,7 +164,7 @@ function CreateJournal({ onCreate, edit }) {
               />
             </div>
             <div className="flex flex-col gap-2 w-full">
-              <label htmlFor="tags" className="text-lg">
+              <label htmlFor="tags" className="text-md md:text-lg">
                 Journal Tags :
               </label>
 
@@ -191,7 +191,7 @@ function CreateJournal({ onCreate, edit }) {
               </div>
             </div>
             <div className="flex flex-col gap-2 w-full">
-              <label htmlFor="mood" className="text-lg">
+              <label htmlFor="mood" className="text-md md:text-lg">
                 Journal Mood :
               </label>
               <select
@@ -213,7 +213,7 @@ function CreateJournal({ onCreate, edit }) {
               </select>
             </div>
             <div className="flex flex-col gap-2 w-full">
-              <label htmlFor="content" className="text-lg">
+              <label htmlFor="content" className="text-md md:text-lg">
                 Journal Content :
               </label>
               <div className="w-full rounded-sm shadow-sm border-2 border-gray-50">

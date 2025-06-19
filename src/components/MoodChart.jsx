@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import { PieChart, Pie, Sector, Cell } from "recharts";
+import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from "recharts";
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#AA00FF"];
 
@@ -83,26 +83,28 @@ export default function MoodChart({ moodData }) {
   }, []);
 
   return (
-    <PieChart width={420} height={300}>
-      <Pie
-        isAnimationActive={true}
-        animationDuration={800}
-        activeIndex={activeIndex}
-        activeShape={renderActiveShape}
-        data={data}
-        cx={220}
-        cy={120}
-        innerRadius={60}
-        outerRadius={75}
-        fill="#8884d8"
-        paddingAngle={5}
-        dataKey="value"
-        onMouseEnter={onPieEnter}
-      >
-        {data.map((entry, index) => (
-          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-        ))}
-      </Pie>
-    </PieChart>
+    <ResponsiveContainer width="100%" height={300}>
+      <PieChart>
+        <Pie
+          isAnimationActive={true}
+          animationDuration={800}
+          activeIndex={activeIndex}
+          activeShape={renderActiveShape}
+          data={data}
+          cx="50%"
+          cy="50%"
+          innerRadius={60}
+          outerRadius={75}
+          fill="#8884d8"
+          paddingAngle={5}
+          dataKey="value"
+          onMouseEnter={onPieEnter}
+        >
+          {data.map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+          ))}
+        </Pie>
+      </PieChart>
+    </ResponsiveContainer>
   );
 }
