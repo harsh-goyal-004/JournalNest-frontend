@@ -78,11 +78,13 @@ function Header({ auth, setView, setSidebarOpen }) {
       <div>
         <div className="w-full flex flex-col md:flex-row gap-4 px-4 py-2 bg-white border-b-2 border-gray-300 items-center md:items-center justify-between">
           <div className="flex justify-between items-center relative w-full">
-            <div className="block absolute right-0 md:hidden">
-              <button onClick={() => setSidebarOpen((prev) => !prev)}>
-                <img src="/menu.svg" alt="Menu" />
-              </button>
-            </div>
+            {auth && (
+              <div className="block absolute right-0 md:hidden">
+                <button onClick={() => setSidebarOpen((prev) => !prev)}>
+                  <img src="/menu.svg" alt="Menu" />
+                </button>
+              </div>
+            )}
             <div className="flex items-center">
               <img
                 src="/journalnest-logo.png"

@@ -53,7 +53,11 @@ function JournalLayout() {
           />
         </div>
         {/* Main View */}
-        <div className="w-full md:w-4/5 h-screen overflow-y-auto">
+        <div
+          className={`${
+            sidebarOpen ? "hidden" : "block"
+          } w-full md:w-4/5 h-screen overflow-y-auto`}
+        >
           {view.type === "New Entry" && (
             <CreateJournal onCreate={fetchEntries} edit={view.data} />
           )}
