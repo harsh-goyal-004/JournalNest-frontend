@@ -22,17 +22,21 @@ function SearchResults({ data, setView }) {
       ) : (
         <>
           <div>
-            <h1 className="text-2xl my-4 font-medium pl-4">Search Results: </h1>
+            <h1 className="text-lg  md:text-2xl my-4 font-medium pl-4">
+              Search Results:
+            </h1>
             {data.map((journal) => (
               <div
-                className="flex w-full border-b-1 h-18 items-center px-4 hover:cursor-pointer hover:bg-gray-200"
+                className="flex w-full border-b-1 h-21 md:h-18 items-center px-4 hover:cursor-pointer hover:bg-gray-200"
                 key={journal.id}
                 onClick={() => setView({ type: "Entry", data: journal })}
               >
                 <img src="/journal.svg" alt="Journal" className="w-10" />
                 <div>
-                  <h1 className="pl-4 text-lg font-medium">{journal.title}</h1>
-                  <p className="pl-4 text-sm">
+                  <h1 className="pl-4 text-sm md:text-lg font-medium">
+                    {journal.title}
+                  </h1>
+                  <p className="pl-4 text-[10px] md:text-sm">
                     {stripHtml(journal.content).slice(0, 150) + "...."}
                   </p>
                 </div>
