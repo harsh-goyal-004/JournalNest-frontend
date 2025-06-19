@@ -1,15 +1,6 @@
 {
   "routes": [
     {
-<<<<<<< HEAD
-      "src": "/assets/(.*)",
-      "headers": {
-        "cache-control": "public,max-age=31536000,immutable"
-      }
-    },
-    {
-=======
->>>>>>> fbf84f3caea343fdd78e028f8ed86388a270ed7a
       "src": "/(.*)",
       "dest": "/index.html"
     }
