@@ -20,7 +20,7 @@ const sidebar = [
   },
 ];
 
-function Sidebar({ setView, allEntries }) {
+function Sidebar({ setView, allEntries, setLoadMoreEntry }) {
   return (
     <>
       <div className="h-full overflow-y-auto border-b-1 border-gray-400">
@@ -54,6 +54,12 @@ function Sidebar({ setView, allEntries }) {
               </li>
             ))}
           </ul>
+          <button
+            onClick={() => setLoadMoreEntry((prev) => prev + 1)}
+            className="text-sm pl-2"
+          >
+            Load More...
+          </button>
         </div>
       </div>
     </>

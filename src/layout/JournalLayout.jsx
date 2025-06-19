@@ -12,11 +12,18 @@ import Header from "../components/Header";
 function JournalLayout() {
   const [view, setView] = useState({ type: "", data: null });
   const [allEntries, setAllEntries] = useState([]);
+  const [loadMoreEntries, setLoadMoreEntries] = useState(1);
 
   async function fetchEntries() {
     try {
-      const response = await getAllEntries();
-      setAllEntries(response.data.content);
+      const response = await getAllEntries(loadMoreEntries);
+
+      setAllEntries((prev) => {
+        const newEntries = response.data.content.filter(
+          (entry) => !prev.some((e) => e.id === entry.id)
+        );
+        return [...prev, ...newEntries];
+      });
     } catch (error) {
       console.error("Error fetching entries", error);
     }
@@ -24,7 +31,7 @@ function JournalLayout() {
 
   useEffect(() => {
     fetchEntries();
-  }, []);
+  }, [loadMoreEntries]);
 
   return (
     <>
@@ -32,7 +39,12 @@ function JournalLayout() {
       <div className="flex">
         {/* Sidebar */}
         <div className="w-1/5 border-r-2 min-h-screen overflow-y-auto bg-gray-100 border-gray-300">
-          <Sidebar setView={setView} allEntries={allEntries} />
+          <Sidebar
+            setView={setView}
+            allEntries={allEntries}
+            loadMoreEntries={loadMoreEntries}
+            setLoadMoreEntry={setLoadMoreEntries}
+          />
         </div>
         {/* Main View */}
         <div className="w-4/5 h-screen overflow-y-auto">

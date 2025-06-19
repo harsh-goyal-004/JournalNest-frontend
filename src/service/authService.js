@@ -29,8 +29,8 @@ export const createJournalEntry = (formData) => {
   );
 };
 
-export const getAllEntries = () => {
-  return axiosInstance.get("/api/journal/get-all-entries");
+export const getAllEntries = (page) => {
+  return axiosInstance.get(`/api/journal/get-all-entries?page=${page}`);
 };
 
 export const getAnalyticsSummary = () => {

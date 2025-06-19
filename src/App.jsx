@@ -11,6 +11,7 @@ import Home from "./pages/Home";
 import ProtectedRoutes from "./auth/ProtectedRoutes";
 import CreateJournal from "./components/CreateJournal";
 import JournalLayout from "./layout/JournalLayout";
+import PageNotFound from "./components/PageNotFound";
 
 function App() {
   const router = createBrowserRouter(
@@ -21,6 +22,7 @@ function App() {
         <Route element={<ProtectedRoutes />}>
           <Route path="home" element={<JournalLayout />} />
         </Route>
+        <Route path="*" element={<PageNotFound />} />
       </Route>
     )
   );

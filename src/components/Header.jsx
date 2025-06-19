@@ -112,15 +112,15 @@ function Header({ auth, setView }) {
                 </form>
               </div>
               <div className="flex gap-4">
-                <div className="relative w-full h-full">
+                <div className="relative w-full h-full group">
                   <button
-                    className="border px-3 rounded-sm bg-white text-black text-sm border-blue-500 h-full w-34"
+                    className={`border px-3 rounded-sm bg-white text-black text-sm border-blue-500 h-full w-34  `}
                     onClick={() => setOpenTagsPanel(!openTagsPanel)}
                   >
                     Filter By Tags
                   </button>
                   <div
-                    className={`absolute w-34 bg-white shadow-xl border border-gray-100 top-10 rounded-lg pl-2 flex flex-col gap-2 py-2 text-sm z-10 ${
+                    className={`absolute w-34 bg-white shadow-xl border border-gray-100 top-10 rounded-lg pl-2 flex flex-col gap-2 py-2 text-sm z-10 group-hover:block ${
                       openTagsPanel ? "block" : "hidden"
                     }`}
                   >
